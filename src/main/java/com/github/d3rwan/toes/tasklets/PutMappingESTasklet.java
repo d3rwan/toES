@@ -54,7 +54,14 @@ public class PutMappingESTasklet extends AbstractESTasklet {
 			LOGGER.info("Mapping {} for index {} added successfully", type, index);
 			return RepeatStatus.FINISHED;
 		} catch (Exception ex) {
-			throw new ESException("An error occured when adding mapping " + type + " for index " + index, ex.getCause());
+			throw new ESException("An error occured when adding mapping " + type + " for index " + index, ex);
 		}
+	}
+
+	/**
+	 * @param mapping the mapping to set
+	 */
+	public void setMapping(Resource mapping) {
+		this.mapping = mapping;
 	}
 }

@@ -46,7 +46,7 @@ public class DeleteAliasESTasklet extends AbstractESTasklet {
 			LOGGER.info("Alias {} -> {} deleted successfully", alias, index);
 			return RepeatStatus.FINISHED;
 		} catch (Exception ex) {
-			throw new ESException("An error occured when deleting alias " + alias + " -> " + index, ex.getCause());
+			throw new ESException("An error occured when deleting alias " + alias + " -> " + index, ex);
 		}
 	}
 }

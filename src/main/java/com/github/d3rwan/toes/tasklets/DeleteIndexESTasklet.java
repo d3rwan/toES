@@ -3,6 +3,7 @@ package com.github.d3rwan.toes.tasklets;
 import javax.annotation.PostConstruct;
 
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexResponse;
+import org.elasticsearch.indices.IndexMissingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.StepContribution;
@@ -39,8 +40,11 @@ public class DeleteIndexESTasklet extends AbstractESTasklet {
 			}
 			LOGGER.info("Index {} deleted successfully", index);
 			return RepeatStatus.FINISHED;
+		} catch (IndexMissingException ex) {
+			LOGGER.info("Index {} is already issing", index);
+			return RepeatStatus.FINISHED;
 		} catch (Exception ex) {
-			throw new ESException("An error occured when deleting index " + index, ex.getCause());
+			throw new ESException("An error occured when deleting index " + index, ex);
 		}
 	}
 }

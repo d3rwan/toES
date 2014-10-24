@@ -23,20 +23,20 @@ public abstract class AbstractESTasklet implements Tasklet {
 
 	/** environment */
 	@Autowired
-	protected Environment environment;
+	public Environment environment;
 
 	/** ES client */
 	@Autowired
-	protected Client esClient;
+	public Client esClient;
 
 	/** index */
-	protected String index;
+	public String index;
 
 	/** type */
-	protected String type;
+	public String type;
 
 	/** alias */
-	protected String alias;
+	public String alias;
 
 	/** Test after properties set */
 	@PostConstruct

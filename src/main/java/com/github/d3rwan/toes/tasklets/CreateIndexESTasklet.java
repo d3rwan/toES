@@ -54,7 +54,14 @@ public class CreateIndexESTasklet extends AbstractESTasklet {
 			LOGGER.info("Index {} created successfully", index);
 			return RepeatStatus.FINISHED;
 		} catch (Exception ex) {
-			throw new ESException("An error occured when creating index " + index, ex.getCause());
+			throw new ESException("An error occured when creating index " + index, ex);
 		}
+	}
+
+	/**
+	 * @param settings the settings to set
+	 */
+	public void setSettings(Resource settings) {
+		this.settings = settings;
 	}
 }

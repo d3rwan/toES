@@ -46,7 +46,7 @@ public class AddAliasESTasklet extends AbstractESTasklet {
 			LOGGER.info("Alias {} -> {} added successfully", alias, index);
 			return RepeatStatus.FINISHED;
 		} catch (Exception ex) {
-			throw new ESException("An error occured when adding alias " + alias + " -> " + index, ex.getCause());
+			throw new ESException("An error occured when adding alias " + alias + " -> " + index, ex);
 		}
 	}
 }
