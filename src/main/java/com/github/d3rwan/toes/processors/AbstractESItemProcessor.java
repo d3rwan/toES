@@ -9,14 +9,14 @@ import com.github.d3rwan.toes.models.ESDocument;
 
 public abstract class AbstractESItemProcessor<T> implements ItemProcessor<T, ESDocument> {
 
-	/** environment */
-	@Autowired
-	protected Environment environment;
+    /** environment */
+    @Autowired
+    protected Environment environment;
 
-	/** mapper */
-	protected ObjectMapper mapper = new ObjectMapper();
+    /** mapper */
+    protected ObjectMapper mapper = new ObjectMapper();
 
-	@Override
-	public abstract ESDocument process(T item) throws Exception;
+    @Override
+    public abstract ESDocument process(T item) throws Exception;
 
 }

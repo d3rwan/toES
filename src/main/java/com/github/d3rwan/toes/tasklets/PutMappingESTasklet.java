@@ -24,44 +24,44 @@ import com.github.d3rwan.toes.exceptions.ESException;
  */
 public class PutMappingESTasklet extends AbstractESTasklet {
 
-	/** logger */
-	private static final Logger LOGGER = LoggerFactory.getLogger(PutMappingESTasklet.class);
+    /** logger */
+    private static final Logger LOGGER = LoggerFactory.getLogger(PutMappingESTasklet.class);
 
-	/** mapping */
-	private Resource mapping;
+    /** mapping */
+    private Resource mapping;
 
-	/** Test after properties set */
-	@PostConstruct
-	public void afterPropertiesSet() {
-		super.afterPropertiesSet();
-		Assert.notNull(mapping, "mapping must not be null");
-		Assert.notNull(getType(), "type must not be null");
-	}
+    /** Test after properties set */
+    @PostConstruct
+    public void afterPropertiesSet() {
+        super.afterPropertiesSet();
+        Assert.notNull(mapping, "mapping must not be null");
+        Assert.notNull(getType(), "type must not be null");
+    }
 
-	@Override
-	public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws ESException {
-		String index = getIndex();
-		String type = getType();
-		try {
-			LOGGER.info("Adding mapping {} for index {}", type, index);
-			String map = IOUtils.toString(mapping.getInputStream(), Constants.CHARSET_UTF8);
-			PutMappingRequestBuilder request = esClient.admin().indices().preparePutMapping(index);
-			request.setSource(map).setType(type);
-			PutMappingResponse response = request.execute().actionGet();
-			if (!response.isAcknowledged()) {
-				throw new ESException("An error occured when adding mapping " + type + " for index " + index);
-			}
-			LOGGER.info("Mapping {} for index {} added successfully", type, index);
-			return RepeatStatus.FINISHED;
-		} catch (Exception ex) {
-			throw new ESException("An error occured when adding mapping " + type + " for index " + index, ex);
-		}
-	}
+    @Override
+    public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws ESException {
+        String index = getIndex();
+        String type = getType();
+        try {
+            LOGGER.info("Adding mapping {} for index {}", type, index);
+            String map = IOUtils.toString(mapping.getInputStream(), Constants.CHARSET_UTF8);
+            PutMappingRequestBuilder request = esClient.admin().indices().preparePutMapping(index);
+            request.setSource(map).setType(type);
+            PutMappingResponse response = request.execute().actionGet();
+            if (!response.isAcknowledged()) {
+                throw new ESException("An error occured when adding mapping " + type + " for index " + index);
+            }
+            LOGGER.info("Mapping {} for index {} added successfully", type, index);
+            return RepeatStatus.FINISHED;
+        } catch (Exception ex) {
+            throw new ESException("An error occured when adding mapping " + type + " for index " + index, ex);
+        }
+    }
 
-	/**
-	 * @param mapping the mapping to set
-	 */
-	public void setMapping(Resource mapping) {
-		this.mapping = mapping;
-	}
+    /**
+     * @param mapping the mapping to set
+     */
+    public void setMapping(Resource mapping) {
+        this.mapping = mapping;
+    }
 }

@@ -27,104 +27,104 @@ import com.github.d3rwan.toes.models.ToESDocument;
  */
 public class ESItemWriter<T> implements ItemWriter<T> {
 
-	/** logger */
-	private static final Logger LOGGER = LoggerFactory.getLogger(ESItemWriter.class);
+    /** logger */
+    private static final Logger LOGGER = LoggerFactory.getLogger(ESItemWriter.class);
 
-	/** environment */
-	@Autowired
-	private Environment environment;
+    /** environment */
+    @Autowired
+    private Environment environment;
 
-	/** ES client */
-	@Autowired
-	private Client esClient;
+    /** ES client */
+    @Autowired
+    private Client esClient;
 
-	/** timeout */
-	private String timeout;
+    /** timeout */
+    private String timeout;
 
-	/**
-	 * Default constructor
-	 */
-	public ESItemWriter() {
-		super();
-	}
+    /**
+     * Default constructor
+     */
+    public ESItemWriter() {
+        super();
+    }
 
-	/**
-	 * Constructor
-	 * @param esClient ES client
-	 */
-	public ESItemWriter(Client esClient) {
-		super();
-		setEsClient(esClient);
-	}
+    /**
+     * Constructor
+     * @param esClient ES client
+     */
+    public ESItemWriter(Client esClient) {
+        super();
+        setEsClient(esClient);
+    }
 
-	/**
-	 * Constructor
-	 * @param esClient ES client
-	 * @param timeout timeout
-	 */
-	public ESItemWriter(Client esClient, String timeout) {
-		super();
-		setEsClient(esClient);
-		setTimeout(timeout);
-	}
+    /**
+     * Constructor
+     * @param esClient ES client
+     * @param timeout timeout
+     */
+    public ESItemWriter(Client esClient, String timeout) {
+        super();
+        setEsClient(esClient);
+        setTimeout(timeout);
+    }
 
-	/** Test after properties set */
-	@PostConstruct
-	public void afterPropertiesSet() {
-		Assert.notNull(esClient, "esClient must not be null");
-	}
+    /** Test after properties set */
+    @PostConstruct
+    public void afterPropertiesSet() {
+        Assert.notNull(esClient, "esClient must not be null");
+    }
 
-	@Override
-	public void write(List<? extends T> items) throws Exception {
-		try {
-			BulkRequestBuilder bulkRequest = esClient.prepareBulk();
-			for (Object item : items) {
-				ESDocument document;
-				if (item instanceof ESDocument) {
-					document = (ESDocument) item;
-				} else if (item instanceof ToESDocument) {
-					document = ((ToESDocument) item).toESDocument();
-				} else {
-					throw new ESException("Object to index must be instance of"
-							+ " ESDocument or implement interface ToESDocument");
-				}
-				IndexRequestBuilder request = esClient.prepareIndex(
-						document.getIndex(),
-						document.getType(),
-						document.getId());
-				request.setSource(document.getSource());
-				if (document.getVersion() != null) {
-					request.setVersion(document.getVersion());
-				}
-				bulkRequest.add(request);
-			}
-			BulkResponse response;
-			if (timeout != null) {
-				response = bulkRequest.execute().actionGet(timeout);
-			} else {
-				response = bulkRequest.execute().actionGet();
-			}
-			if (response.hasFailures()) {
-				throw new ESException("An error occured during bulk request : "
-						+ response.buildFailureMessage());
-			}
-			LOGGER.info("{} documents indexed in {} ms", response.getItems().length, response.getTookInMillis());
-		} catch (Exception ex) {
-			throw new ESException("An error occured during bulk request", ex.getCause());
-		}
-	}
+    @Override
+    public void write(List<? extends T> items) throws Exception {
+        try {
+            BulkRequestBuilder bulkRequest = esClient.prepareBulk();
+            for (Object item : items) {
+                ESDocument document;
+                if (item instanceof ESDocument) {
+                    document = (ESDocument) item;
+                } else if (item instanceof ToESDocument) {
+                    document = ((ToESDocument) item).toESDocument();
+                } else {
+                    throw new ESException("Object to index must be instance of"
+                            + " ESDocument or implement interface ToESDocument");
+                }
+                IndexRequestBuilder request = esClient.prepareIndex(
+                        document.getIndex(),
+                        document.getType(),
+                        document.getId());
+                request.setSource(document.getSource());
+                if (document.getVersion() != null) {
+                    request.setVersion(document.getVersion());
+                }
+                bulkRequest.add(request);
+            }
+            BulkResponse response;
+            if (timeout != null) {
+                response = bulkRequest.execute().actionGet(timeout);
+            } else {
+                response = bulkRequest.execute().actionGet();
+            }
+            if (response.hasFailures()) {
+                throw new ESException("An error occured during bulk request : "
+                        + response.buildFailureMessage());
+            }
+            LOGGER.info("{} documents indexed in {} ms", response.getItems().length, response.getTookInMillis());
+        } catch (Exception ex) {
+            throw new ESException("An error occured during bulk request", ex.getCause());
+        }
+    }
 
-	/**
-	 * @param esClient the esClient to set
-	 */
-	public void setEsClient(Client esClient) {
-		this.esClient = esClient;
-	}
+    /**
+     * @param esClient the esClient to set
+     */
+    public void setEsClient(Client esClient) {
+        this.esClient = esClient;
+    }
 
-	/**
-	 * @param timeout the timeout to set
-	 */
-	public void setTimeout(String timeout) {
-		this.timeout = timeout;
-	}
+    /**
+     * @param timeout the timeout to set
+     */
+    public void setTimeout(String timeout) {
+        this.timeout = timeout;
+    }
 }

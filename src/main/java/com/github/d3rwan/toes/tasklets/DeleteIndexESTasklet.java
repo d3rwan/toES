@@ -20,31 +20,31 @@ import com.github.d3rwan.toes.exceptions.ESException;
  */
 public class DeleteIndexESTasklet extends AbstractESTasklet {
 
-	/** logger */
-	private static final Logger LOGGER = LoggerFactory.getLogger(DeleteIndexESTasklet.class);
+    /** logger */
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeleteIndexESTasklet.class);
 
-	/** Test after properties set */
-	@PostConstruct
-	public void afterPropertiesSet() {
-		super.afterPropertiesSet();
-	}
+    /** Test after properties set */
+    @PostConstruct
+    public void afterPropertiesSet() {
+        super.afterPropertiesSet();
+    }
 
-	@Override
-	public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws ESException {
-		String index = getIndex();
-		try {
-			LOGGER.info("Deleting index {}", index);
-			DeleteIndexResponse response = esClient.admin().indices().prepareDelete(index).execute().actionGet();
-			if (!response.isAcknowledged()) {
-				throw new ESException("An error occured when deleting index " + index);
-			}
-			LOGGER.info("Index {} deleted successfully", index);
-			return RepeatStatus.FINISHED;
-		} catch (IndexMissingException ex) {
-			LOGGER.info("Index {} is already missing", index);
-			return RepeatStatus.FINISHED;
-		} catch (Exception ex) {
-			throw new ESException("An error occured when deleting index " + index, ex);
-		}
-	}
+    @Override
+    public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws ESException {
+        String index = getIndex();
+        try {
+            LOGGER.info("Deleting index {}", index);
+            DeleteIndexResponse response = esClient.admin().indices().prepareDelete(index).execute().actionGet();
+            if (!response.isAcknowledged()) {
+                throw new ESException("An error occured when deleting index " + index);
+            }
+            LOGGER.info("Index {} deleted successfully", index);
+            return RepeatStatus.FINISHED;
+        } catch (IndexMissingException ex) {
+            LOGGER.info("Index {} is already missing", index);
+            return RepeatStatus.FINISHED;
+        } catch (Exception ex) {
+            throw new ESException("An error occured when deleting index " + index, ex);
+        }
+    }
 }

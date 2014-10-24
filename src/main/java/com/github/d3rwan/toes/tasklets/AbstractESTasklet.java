@@ -21,100 +21,100 @@ import com.github.d3rwan.toes.exceptions.ESException;
  */
 public abstract class AbstractESTasklet implements Tasklet {
 
-	/** environment */
-	@Autowired
-	public Environment environment;
+    /** environment */
+    @Autowired
+    public Environment environment;
 
-	/** ES client */
-	@Autowired
-	public Client esClient;
+    /** ES client */
+    @Autowired
+    public Client esClient;
 
-	/** index */
-	public String index;
+    /** index */
+    public String index;
 
-	/** type */
-	public String type;
+    /** type */
+    public String type;
 
-	/** alias */
-	public String alias;
+    /** alias */
+    public String alias;
 
-	/** Test after properties set */
-	@PostConstruct
-	public void afterPropertiesSet() {
-		Assert.notNull(esClient, "esClient must not be null");
-		Assert.notNull(index, "indexName must not be null");
-	}
+    /** Test after properties set */
+    @PostConstruct
+    public void afterPropertiesSet() {
+        Assert.notNull(esClient, "esClient must not be null");
+        Assert.notNull(index, "indexName must not be null");
+    }
 
-	@Override
-	public abstract RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws ESException;
+    @Override
+    public abstract RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws ESException;
 
-	/**
-	 * @return the environment
-	 */
-	public Environment getEnvironment() {
-		return environment;
-	}
+    /**
+     * @return the environment
+     */
+    public Environment getEnvironment() {
+        return environment;
+    }
 
-	/**
-	 * @param environment the environment to set
-	 */
-	public void setEnvironment(Environment environment) {
-		this.environment = environment;
-	}
+    /**
+     * @param environment the environment to set
+     */
+    public void setEnvironment(Environment environment) {
+        this.environment = environment;
+    }
 
-	/**
-	 * @return the esClient
-	 */
-	public Client getEsClient() {
-		return esClient;
-	}
+    /**
+     * @return the esClient
+     */
+    public Client getEsClient() {
+        return esClient;
+    }
 
-	/**
-	 * @param esClient the esClient to set
-	 */
-	public void setEsClient(Client esClient) {
-		this.esClient = esClient;
-	}
+    /**
+     * @param esClient the esClient to set
+     */
+    public void setEsClient(Client esClient) {
+        this.esClient = esClient;
+    }
 
-	/**
-	 * @return the index
-	 */
-	public String getIndex() {
-		return index;
-	}
+    /**
+     * @return the index
+     */
+    public String getIndex() {
+        return index;
+    }
 
-	/**
-	 * @param index the index to set
-	 */
-	public void setIndex(String index) {
-		this.index = index;
-	}
+    /**
+     * @param index the index to set
+     */
+    public void setIndex(String index) {
+        this.index = index;
+    }
 
-	/**
-	 * @return the type
-	 */
-	public String getType() {
-		return type;
-	}
+    /**
+     * @return the type
+     */
+    public String getType() {
+        return type;
+    }
 
-	/**
-	 * @param type the type to set
-	 */
-	public void setType(String type) {
-		this.type = type;
-	}
+    /**
+     * @param type the type to set
+     */
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	/**
-	 * @return the alias
-	 */
-	public String getAlias() {
-		return alias;
-	}
+    /**
+     * @return the alias
+     */
+    public String getAlias() {
+        return alias;
+    }
 
-	/**
-	 * @param alias the alias to set
-	 */
-	public void setAlias(String alias) {
-		this.alias = alias;
-	}
+    /**
+     * @param alias the alias to set
+     */
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
 }

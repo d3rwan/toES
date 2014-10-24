@@ -8,7 +8,7 @@ package com.github.d3rwan.toes.common;
  */
 public final class Constants {
 
-	/** charset */
-	public static final String CHARSET_UTF8 = "UTF-8";
+    /** charset */
+    public static final String CHARSET_UTF8 = "UTF-8";
 
 }
