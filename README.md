@@ -5,8 +5,9 @@ Insert data into ElasticSearch, based on springboot / springbatch
 
 #### How it works ?
 
-How index CSV files into Elasticsearch ? See [https://github.com/d3rwan/CSVtoES](https://github.com/d3rwan/CSVtoES)
-How to index Database table using Hibernate into Elasticsearch ? See [https://github.com/d3rwan/DBtoES](https://github.com/d3rwan/DBtoES)
+Index CSV files into Elasticsearch ? See [https://github.com/d3rwan/CSVtoES](https://github.com/d3rwan/CSVtoES)
+
+Index Database table using Hibernate into Elasticsearch ? See [https://github.com/d3rwan/DBtoES](https://github.com/d3rwan/DBtoES)
 
 
 #### Document ES
