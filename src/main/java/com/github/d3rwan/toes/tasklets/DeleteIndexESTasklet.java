@@ -41,7 +41,7 @@ public class DeleteIndexESTasklet extends AbstractESTasklet {
 			LOGGER.info("Index {} deleted successfully", index);
 			return RepeatStatus.FINISHED;
 		} catch (IndexMissingException ex) {
-			LOGGER.info("Index {} is already issing", index);
+			LOGGER.info("Index {} is already missing", index);
 			return RepeatStatus.FINISHED;
 		} catch (Exception ex) {
 			throw new ESException("An error occured when deleting index " + index, ex);
